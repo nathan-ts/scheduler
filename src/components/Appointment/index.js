@@ -1,12 +1,7 @@
 import React from "react";
-import Header from "./Header.js";
-// import classNames from "classnames";
 import "./styles.scss";
 
 export default function Appointment(props) {
-  // const listClass = classNames('day-interviewers__item', {
-  //   'interviewers__item--selected': props.selected
-  // });
 
 
   return (
