@@ -1,4 +1,5 @@
 import React from "react";
+import Header from "./Header.js";
 // import classNames from "classnames";
 import "./styles.scss";
 
