@@ -51,10 +51,11 @@ export default function Application(props) {
 
   useEffect(() => {
     axios.get('/api/days')
-      .then(res => {
-        setDays([...res.data.result]);
+      .then(response => {
+        // console.log(response.data);
+        setDays([...response.data]);
       });
-  });
+  }, []);
 
   const appointList = Object.values(appointments).map(appt => <Appointment 
     key={appt.id} 
