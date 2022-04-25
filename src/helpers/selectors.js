@@ -21,34 +21,43 @@ export function getAppointmentsForDay(state, day) {
 export function getInterviewersForDay(state, day) {
   // Get only the day for which the name matches the day prop
   const selectedDay = state.days.filter(d => d.name === day)[0];
+  console.log("Selected day is", selectedDay);
 
-  const interviewersForDay = [];
+  // const interviewersForDay = [];
   // Init interviewers to return and check if no days were found (skip if so)
-  if (selectedDay) {
+  if (!selectedDay) {
     // Iterate over interviewers list for the selected day, and
     //   return matching interviewers
-    for (const a of selectedDay.appointments) {
-      const foundInterview = state.appointments[a].interview;
-      const foundInterviewerId = foundInterview ? foundInterview.interviewer : undefined;
-      const foundInterviewer = state.interviewers[foundInterviewerId];
-      if (foundInterviewer) { 
-        interviewersForDay.push(foundInterviewer);
-      }
-    }
+    // for (const a of selectedDay.appointments) {
+    //   // console.log("For loop index",a);
+    //   const foundInterview = state.appointments[a].interview;
+    //   const foundInterviewerId = foundInterview ? foundInterview.interviewer : undefined;
+    //   const foundInterviewer = state.interviewers[foundInterviewerId];
+    //   if (foundInterviewer) { 
+    //     interviewersForDay.push(foundInterviewer);
+    //   }
+      
+    // }
+    return [];
   }
+  return selectedDay.interviewers.map(id => state.interviewers[id]);
 
-  return interviewersForDay;
+  // return interviewersForDay;
 }
 
 export function getInterview(state, interview) {
-  console.log("interview passed in for get is:", interview)
+  // console.log("interview passed in for get is:", JSON.stringify(interview));
+  // debugger;
   if (!interview) {
     return null;
   }
-  const interviewer = state.interviewers[interview.interviewer]
+  // console.log("getInterviewer sees list of interviewers:",state.interviewers);
+  const interviewer = state.interviewers[interview.interviewer];
+  // console.log("getInterview found interviewer:", interviewer);
   if (interviewer) {
-    interview.interviewer = interviewer;
-    return interview;
+    const newInterview = {...interview};
+    newInterview.interviewer = interviewer;
+    return newInterview;
   }
   return null;
 };
