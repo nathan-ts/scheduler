@@ -36,28 +36,28 @@ export default function Appointment(props) {
     transition(SAVING);
     // console.log("Calling bookInterview with", props.id, interview);
     props.bookInterview(props.id, interview)
-      .then(response => transition(SHOW))
+      .then(() => transition(SHOW))
       .catch(err => {
         console.log(err.message);
-        transition(ERROR_SAVE);
+        transition(ERROR_SAVE, true);
       });
   };
 
   // Delete interview scheduled in the selected appointment slot
-  function remove(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer
-    };
-    transition(DELETING);
-    props.cancelInterview(props.id, interview)
+  function remove() {
+    // const interview = {
+    //   student: name,
+    //   interviewer
+    // };
+    transition(DELETING, true);
+    props.cancelInterview(props.id)
       .then(response => {
         console.log("Deleted appointment successfully!");
         transition(EMPTY);
       })
       .catch(err => {
         console.log(err.message);
-        transition(ERROR_DELETE);
+        transition(ERROR_DELETE, true);
       });
   };
 
@@ -104,10 +104,10 @@ export default function Appointment(props) {
         <Status message="Deleting..." />
       )}
       {mode === ERROR_SAVE && (
-        <Error message="Error in saving; appointment not saved." onClick={back}/>
+        <Error message="Error in saving; appointment not saved." onClose={back}/>
       )}
       {mode === ERROR_DELETE && (
-        <Error message="Error in deleting; appointment not deleted." onClick={back}/>
+        <Error message="Error in deleting; appointment not deleted." onClose={back}/>
       )}
     </article>
   );

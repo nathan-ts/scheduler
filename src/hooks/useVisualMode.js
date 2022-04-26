@@ -5,6 +5,7 @@ export default function useVisualMode(initial) {
   const [history, setHistory] = useState([initial]); 
 
   const transition = function(newMode, replace = false) {
+    // console.log("Mode history before transition:", history);
     if (replace) {
       // const overwriteLast = history;
       // overwriteLast[overwriteLast.length - 1] = newMode;
@@ -16,12 +17,18 @@ export default function useVisualMode(initial) {
       });
     } else {
       // setHistory([...history, newMode]); 
-      setHistory(prev => ([...prev, newMode])); 
+      // setHistory(prev => ([...prev, newMode])); 
+      setHistory(prev => {
+        // console.log("No replace transition, prev:", prev, newMode);
+        return ([...prev, newMode]);
+      }); 
     }
     setMode(newMode);
+    console.log("New mode:", newMode,"Mode history after transition:", history, "replace?", replace);
   };
 
   const back = function() {
+    console.log("Going back... history", history);
     const lastHistory = history.length > 1 ? history.slice(0, -1) : history;
     setHistory(lastHistory);
     const lastMode = lastHistory[lastHistory.length - 1];
@@ -30,4 +37,4 @@ export default function useVisualMode(initial) {
   };
 
   return { mode, transition, back };
-}
+};
