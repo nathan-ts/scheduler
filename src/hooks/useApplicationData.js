@@ -44,12 +44,6 @@ export default function useApplicationData(props) {
     };
 
     // Update number of slots in the day we are booking in
-    // const dayI = state.days.findIndex(day => state.day === day.name);
-    // const days = [...state.days]; // this is a mutable copy oops
-    // const days = JSON.parse(JSON.stringify(state.days));
-    // if (!update) {
-      //   days[dayI].spots--;
-      // }
     const days = updateSpots(state, appointments, id);
 
     // console.log("bookInterview updating state with appts:", appointments);
@@ -78,14 +72,6 @@ export default function useApplicationData(props) {
     };
 
     // Update number of slots in the day we are booking in
-    // const dayI = state.days.findIndex(day => state.day === day.name);
-    // let dayI = -1;
-    // for (let i = 0; i < state.days.length; i++) {
-    //   if (state.days[i].name === state.day) {
-    //     dayI = i;
-    //   }
-    // }
-    // days[dayI].spots++;
     const days = updateSpots(state, appointments, id);
 
     console.log("Appointment after cancel to push", appointment);

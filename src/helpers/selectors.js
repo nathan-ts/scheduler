@@ -21,25 +21,14 @@ export function getAppointmentsForDay(state, day) {
 export function getInterviewersForDay(state, day) {
   // Get only the day for which the name matches the day prop
   const selectedDay = state.days.filter(d => d.name === day)[0];
-  console.log("Selected day is", selectedDay);
-
-  // const interviewersForDay = [];
-  // Init interviewers to return and check if no days were found (skip if so)
+  
+  // Check if no days were found (skip if so)
   if (!selectedDay) {
-    // Iterate over interviewers list for the selected day, and
-    //   return matching interviewers
-    // for (const a of selectedDay.appointments) {
-    //   // console.log("For loop index",a);
-    //   const foundInterview = state.appointments[a].interview;
-    //   const foundInterviewerId = foundInterview ? foundInterview.interviewer : undefined;
-    //   const foundInterviewer = state.interviewers[foundInterviewerId];
-    //   if (foundInterviewer) { 
-    //     interviewersForDay.push(foundInterviewer);
-    //   }
-      
-    // }
     return [];
   }
+
+  console.log("Selected day is", selectedDay);
+  
   return selectedDay.interviewers.map(id => state.interviewers[id]);
 
   // return interviewersForDay;
@@ -47,7 +36,6 @@ export function getInterviewersForDay(state, day) {
 
 export function getInterview(state, interview) {
   // console.log("interview passed in for get is:", JSON.stringify(interview));
-  // debugger;
   if (!interview) {
     return null;
   }
