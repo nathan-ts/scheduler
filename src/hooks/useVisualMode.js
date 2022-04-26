@@ -6,11 +6,17 @@ export default function useVisualMode(initial) {
 
   const transition = function(newMode, replace = false) {
     if (replace) {
-      const overwriteLast = history;
-      overwriteLast[overwriteLast.length - 1] = newMode;
-      setHistory(overwriteLast)
+      // const overwriteLast = history;
+      // overwriteLast[overwriteLast.length - 1] = newMode;
+      // setHistory(overwriteLast);
+      setHistory(prev => {
+        const overwriteLast = prev;
+        overwriteLast[overwriteLast.length - 1] = newMode;
+        return overwriteLast;
+      });
     } else {
-      setHistory([...history, newMode])
+      // setHistory([...history, newMode]); 
+      setHistory(prev => ([...prev, newMode])); 
     }
     setMode(newMode);
   };

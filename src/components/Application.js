@@ -56,7 +56,7 @@ export default function Application(props) {
           ...prev,
           appointments
         }))
-      });
+      })
     ;
   }
 
@@ -80,10 +80,9 @@ export default function Application(props) {
         appointments
       }))
     });
-  ;
-  }
+  };
 
-  const appointmentList = function() {
+  const appointmentList = function() { // function wrapper maybe not needed, use appointList directly?
     // Get appointments and interviewers for the selected day
     const dailyAppointments = getAppointmentsForDay(state, state.day);
     const dailyInterviewers = getInterviewersForDay(state, state.day);
