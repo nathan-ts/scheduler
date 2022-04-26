@@ -48,32 +48,64 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    console.log("bookInterview updating state with appts:", appointments);
-    setState(prev => ({
-      ...prev,
-      appointments
-    }));
+    // console.log("bookInterview updating state with appts:", appointments);
+    return axios.put(`/api/appointments/${id}`, { interview })
+      .then(response => {
+        console.log("PUT:", interview, "Response:", response.status);
+        setState(prev => ({
+          ...prev,
+          appointments
+        }))
+      });
+    ;
   }
 
-  // Get appointments and interviewers for the selected day
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const dailyInterviewers = getInterviewersForDay(state, state.day);
-  // Create appointment list for the day
-  const appointList = dailyAppointments.map(appointment => {
-    // console.log("Daily interviewers for", state.day, "is", dailyInterviewers);
-    const interview = getInterview(state, appointment.interview);
-    console.log("getInterview:", interview);
-    return (<Appointment 
-      key={appointment.id}
-      id={appointment.id}
-      time={appointment.time}
-      interview={interview}
-      interviewers={dailyInterviewers}
-      bookInterview={bookInterview}
-    />)
-  });
-  appointList.push(<Appointment key="last" time="5pm" />);
-  console.log("appointment list:", appointList);
+  // Function to change state to remove interview from appointment slot
+  function cancelInterview(id) {
+    console.log("cancelInterview called with:", id);
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    console.log("Appointment after cancel to push", appointment);
+    return axios.delete(`/api/appointments/${id}`, { interview: null })
+    .then(response => {
+      console.log("DELETE interview Response:", response.status);
+      setState(prev => ({
+        ...prev,
+        appointments
+      }))
+    });
+  ;
+  }
+
+  const appointmentList = function() {
+    // Get appointments and interviewers for the selected day
+    const dailyAppointments = getAppointmentsForDay(state, state.day);
+    const dailyInterviewers = getInterviewersForDay(state, state.day);
+    // Create appointment list for the day
+    const appointList = dailyAppointments.map(appointment => {
+      // console.log("Daily interviewers for", state.day, "is", dailyInterviewers);
+      const interview = getInterview(state, appointment.interview);
+      console.log("getInterview result:", interview);
+      return (<Appointment 
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+        interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />)
+    });
+    appointList.push(<Appointment key="last" time="5pm" />);
+    console.log("appointment list:", appointList);
+    return appointList;
+  }
 
   // Return application JSX
   return (
@@ -99,7 +131,8 @@ export default function Application(props) {
       />
       </section>
       <section className="schedule">
-        {appointList}
+        {/* {appointList} */}
+        {appointmentList()}
       </section>
     </main>
   );
