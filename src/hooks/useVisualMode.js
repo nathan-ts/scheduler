@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
@@ -7,19 +7,13 @@ export default function useVisualMode(initial) {
   const transition = function(newMode, replace = false) {
     // console.log("Mode history before transition:", history);
     if (replace) {
-      // const overwriteLast = history;
-      // overwriteLast[overwriteLast.length - 1] = newMode;
-      // setHistory(overwriteLast);
       setHistory(prev => {
         const overwriteLast = prev;
         overwriteLast[overwriteLast.length - 1] = newMode;
         return overwriteLast;
       });
     } else {
-      // setHistory([...history, newMode]); 
-      // setHistory(prev => ([...prev, newMode])); 
       setHistory(prev => {
-        // console.log("No replace transition, prev:", prev, newMode);
         return ([...prev, newMode]);
       }); 
     }

@@ -28,14 +28,14 @@ export default function Appointment(props) {
   );
 
   // Save function to capture name and interviewer
-  function save(name, interviewer) {
+  function save(name, interviewer, update = false) {
     const interview = {
       student: name,
       interviewer
     };
     transition(SAVING);
     // console.log("Calling bookInterview with", props.id, interview);
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, update)
       .then(() => transition(SHOW))
       .catch(err => {
         console.log(err.message);
@@ -45,10 +45,6 @@ export default function Appointment(props) {
 
   // Delete interview scheduled in the selected appointment slot
   function remove() {
-    // const interview = {
-    //   student: name,
-    //   interviewer
-    // };
     transition(DELETING, true);
     props.cancelInterview(props.id)
       .then(response => {
@@ -73,7 +69,7 @@ export default function Appointment(props) {
           onDelete={() => transition(CONFIRM)}
         />
         // <div>SHOW:{JSON.stringify(props.interview)}</div>
-      )}
+      )}...
       {mode === CREATE && (
         <Form 
           interviewers={props.interviewers} 
@@ -87,7 +83,7 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers} 
           onCancel={back} 
-          onSave={save}
+          onSave={(n, i) => save(n, i, true)}
         />
       )}
       {mode === CONFIRM && (

@@ -9,15 +9,7 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
-
-  // const [state, setState] = useState({
-  //   day: "Monday",
-  //   days: [],
-  //   appointments: {}, 
-  //   interviewers: {}
-  // });
-  // const setDay = day => setState({ ...state, day });
-
+  
   const {
     state,
     setDay,

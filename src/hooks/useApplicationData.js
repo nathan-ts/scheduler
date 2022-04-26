@@ -32,7 +32,7 @@ export default function useApplicationData(props) {
   }, []);
   
   // Function to change state when we book interview
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, update) {
     console.log("bookInterview called with:", id, interview);
     const appointment = {
       ...state.appointments[id],
@@ -46,7 +46,9 @@ export default function useApplicationData(props) {
     // Update number of slots in the day we are booking in
     const dayI = state.days.findIndex(day => state.day === day.name);
     const days = [...state.days];
-    days[dayI].spots--;
+    if (!update) {
+      days[dayI].spots--;
+    }
 
     // console.log("bookInterview updating state with appts:", appointments);
     return axios.put(`/api/appointments/${id}`, { interview })
@@ -57,7 +59,6 @@ export default function useApplicationData(props) {
           appointments, 
           days
         }));
-        // updateSpots();
       })
     ;
   }
@@ -73,9 +74,15 @@ export default function useApplicationData(props) {
       ...state.appointments,
       [id]: appointment
     };
-    
+
     // Update number of slots in the day we are booking in
     const dayI = state.days.findIndex(day => state.day === day.name);
+    // let dayI = -1;
+    // for (let i = 0; i < state.days.length; i++) {
+    //   if (state.days[i].name === state.day) {
+    //     dayI = i;
+    //   }
+    // }
     const days = [...state.days];
     days[dayI].spots++;
 
@@ -85,60 +92,11 @@ export default function useApplicationData(props) {
         console.log("DELETE interview Response:", response.status);
         setState(prev => ({
           ...prev,
-          appointments
+          appointments, 
+          days
         }));
-        // updateSpots();
       });
   };
 
-  // function updateSpots() {
-  //   const updatedDays = [...state.days];
-  //   // console.log("Days before update:",state.days);
-  //   // for (const d of state.days) {
-  //   for (let i = 0; i < updatedDays.length; i++) {
-  //     // console.log("For loop check:",state.days[d], d);
-  //     const openSpots = updatedDays[i].appointments.reduce((prev, curr) => {
-  //       if (!state.appointments[curr].interview) {
-  //         return prev + 1;
-  //       }
-  //       return prev;
-  //     }, 0);
-  //     console.log("Open spots", openSpots, "id", i );
-  //     console.log("updated days before add", updatedDays);
-  //     updatedDays[i].spots = openSpots;
-  //   }
-  //   console.log(updatedDays);
-
-  //   setState(prev => ({
-  //     ...prev,
-  //     days: updatedDays
-  //   }));
-
-  //   console.log("Updated spots", state.days);
-  // }
-
   return { state, setDay, bookInterview, cancelInterview };
 };
-
-/*
-[
-  {
-    "id":1,"name":"Monday",
-    "appointments":[1,2,3,4,5],
-    "interviewers":[2,4,8,9,10],"spots":2
-  },{
-    "id":2,"name":"Tuesday",
-    "appointments":[6,7,8,9,10],
-    "interviewers":[1,3,4,6,9],"spots":3
-  },{"id":3,"name":"Wednesday",
-    "appointments":[11,12,13,14,15],
-    "interviewers":[1,4,5,6,10],"spots":3
-  },{"id":4,"name":"Thursday",
-    "appointments":[16,17,18,19,20],
-    "interviewers":[2,3,4,8,9],"spots":1
-  },{"id":5,"name":"Friday",
-    "appointments":[21,22,23,24,25],
-    "interviewers":[1,2,6,8,9],"spots":4
-  }
-]
-*/
