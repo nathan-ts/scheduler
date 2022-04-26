@@ -32,7 +32,7 @@ export default function useApplicationData(props) {
   }, []);
   
   // Function to change state when we book interview
-  function bookInterview(id, interview, update) {
+  function bookInterview(id, interview) {
     console.log("bookInterview called with:", id, interview);
     const appointment = {
       ...state.appointments[id],
@@ -44,11 +44,13 @@ export default function useApplicationData(props) {
     };
 
     // Update number of slots in the day we are booking in
-    const dayI = state.days.findIndex(day => state.day === day.name);
-    const days = [...state.days];
-    if (!update) {
-      days[dayI].spots--;
-    }
+    // const dayI = state.days.findIndex(day => state.day === day.name);
+    // const days = [...state.days]; // this is a mutable copy oops
+    // const days = JSON.parse(JSON.stringify(state.days));
+    // if (!update) {
+      //   days[dayI].spots--;
+      // }
+    const days = updateSpots(state, appointments, id);
 
     // console.log("bookInterview updating state with appts:", appointments);
     return axios.put(`/api/appointments/${id}`, { interview })
@@ -76,15 +78,15 @@ export default function useApplicationData(props) {
     };
 
     // Update number of slots in the day we are booking in
-    const dayI = state.days.findIndex(day => state.day === day.name);
+    // const dayI = state.days.findIndex(day => state.day === day.name);
     // let dayI = -1;
     // for (let i = 0; i < state.days.length; i++) {
     //   if (state.days[i].name === state.day) {
     //     dayI = i;
     //   }
     // }
-    const days = [...state.days];
-    days[dayI].spots++;
+    // days[dayI].spots++;
+    const days = updateSpots(state, appointments, id);
 
     console.log("Appointment after cancel to push", appointment);
     return axios.delete(`/api/appointments/${id}`, { interview: null })
@@ -96,6 +98,37 @@ export default function useApplicationData(props) {
           days
         }));
       });
+  };
+
+  const updateSpots = function(state, appointments, id) {
+    // find the day
+    const days = JSON.parse(JSON.stringify(state.days)); 
+        // you can also use const days = [...state.days];
+    // const dayObj = days.find(d => d.name === state.day);
+    const dayIndex = days.findIndex(d => d.name === state.day);
+    const dayObj = days[dayIndex];
+
+    // check appointments by id for no interview
+    let spots = 0;
+    for (const id of dayObj.appointments) {
+      const appointment = appointments[id];
+      console.log("Checking appointments for open spots:", appointment);
+      if (!appointment.interview) {
+        spots++;
+      }
+    }
+
+    // Update the cloned days array with the new day object with correct spots
+    const day = { ...dayObj, spots };
+    days[dayIndex] = day;
+    console.log("state.days updated with:", day);
+
+    // note: you can also use map to update an object in an array
+      // we keep the original if it's not state.day, otherwise we replace it
+    // days = state.days.map(d => d.name === state.day ? day : d);
+      // if we use this map, we should use dayObj = days.find
+
+    return days;
   };
 
   return { state, setDay, bookInterview, cancelInterview };
