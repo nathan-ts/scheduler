@@ -77,7 +77,6 @@ export default function useApplicationData(props) {
     console.log("Appointment after cancel to push", appointment);
     return axios.delete(`/api/appointments/${id}`, { interview: null })
       .then(response => {
-        console.log("DELETE interview Response:", response.status);
         setState(prev => ({
           ...prev,
           appointments, 
@@ -89,8 +88,6 @@ export default function useApplicationData(props) {
   const updateSpots = function(state, appointments, id) {
     // find the day
     const days = JSON.parse(JSON.stringify(state.days)); 
-        // you can also use const days = [...state.days];
-    // const dayObj = days.find(d => d.name === state.day);
     const dayIndex = days.findIndex(d => d.name === state.day);
     const dayObj = days[dayIndex];
 
@@ -108,11 +105,6 @@ export default function useApplicationData(props) {
     const day = { ...dayObj, spots };
     days[dayIndex] = day;
     console.log("state.days updated with:", day);
-
-    // note: you can also use map to update an object in an array
-      // we keep the original if it's not state.day, otherwise we replace it
-    // days = state.days.map(d => d.name === state.day ? day : d);
-      // if we use this map, we should use dayObj = days.find
 
     return days;
   };

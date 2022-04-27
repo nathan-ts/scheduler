@@ -5,8 +5,7 @@ export function getAppointmentsForDay(state, day) {
   const appointmentsForDay = [];
   // Init appointments to return and check if no days were found (skip if so)
   if (selectedDay) {
-    // Iterate over appointments list for the selected day, and
-    //   return matching appointments
+    // Iterate over appointments list for the selected day, and return matching appointments
     for (const a of selectedDay.appointments) {
       const foundAppointment = state.appointments[a];
       if (foundAppointment) { 
@@ -30,18 +29,13 @@ export function getInterviewersForDay(state, day) {
   console.log("Selected day is", selectedDay);
   
   return selectedDay.interviewers.map(id => state.interviewers[id]);
-
-  // return interviewersForDay;
 }
 
 export function getInterview(state, interview) {
-  // console.log("interview passed in for get is:", JSON.stringify(interview));
   if (!interview) {
     return null;
   }
-  // console.log("getInterviewer sees list of interviewers:",state.interviewers);
   const interviewer = state.interviewers[interview.interviewer];
-  // console.log("getInterview found interviewer:", interviewer);
   if (interviewer) {
     const newInterview = {...interview};
     newInterview.interviewer = interviewer;

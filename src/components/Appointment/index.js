@@ -34,7 +34,6 @@ export default function Appointment(props) {
       interviewer
     };
     transition(SAVING);
-    // console.log("Calling bookInterview with", props.id, interview);
     props.bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(err => {
@@ -68,7 +67,6 @@ export default function Appointment(props) {
           onEdit={() => transition(EDIT)}
           onDelete={() => transition(CONFIRM)}
         />
-        // <div>SHOW:{JSON.stringify(props.interview)}</div>
       )}
       {mode === CREATE && (
         <Form 
