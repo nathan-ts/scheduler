@@ -13,7 +13,7 @@ export default function DayListItem(props) {
     props.spots === 1 ? `1 spot remaining` : `${props.spots} spots remaining`;
 
   return (
-    <li className={listClass} onClick={() => props.onChange(props.name)}>
+    <li className={listClass} onClick={() => props.onChange(props.name)} data-testid="day">
       <h2 className="text--regular">{props.name}</h2>
       <h3 className="text--light">{spots}</h3>
     </li>
