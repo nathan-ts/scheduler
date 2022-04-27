@@ -38,7 +38,7 @@ export default function Application(props) {
       />)
     });
     appointList.push(<Appointment key="last" time="5pm" />);
-    console.log("appointment list:", appointList);
+    // console.log("appointment list:", appointList);
     return appointList;
   }
 
