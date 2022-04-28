@@ -17,11 +17,9 @@ export default function useVisualMode(initial) {
       }); 
     }
     setMode(newMode);
-    console.log("New mode:", newMode,"Mode history after transition:", history, "replace?", replace);
   };
 
   const back = function() {
-    console.log("Going back... history", history);
     const lastHistory = history.length > 1 ? history.slice(0, -1) : history;
     setHistory(lastHistory);
     const lastMode = lastHistory[lastHistory.length - 1];

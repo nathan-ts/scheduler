@@ -19,7 +19,9 @@ npm start
 
 ## Dependencies
 
+- Node.js
 - [scheduler-api](https://github.com/nathan-ts/scheduler-api)
+- PostgreSQL
 - Axios
 - React
 
