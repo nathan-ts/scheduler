@@ -24,4 +24,9 @@ npm start
 - React
 
 ## Screenshots
-
+![Home page - Monday](https://github.com/nathan-ts/scheduler/blob/main/docs/interview.jpg)
+![Change day - Thursday](https://github.com/nathan-ts/scheduler/blob/main/docs/thursday.jpg)
+![Creating and Editing Interview](https://github.com/nathan-ts/scheduler/blob/main/docs/edit.jpg)
+![Saving](https://github.com/nathan-ts/scheduler/blob/main/docs/saving.jpg)
+![Delete Confirmation](https://github.com/nathan-ts/scheduler/blob/main/docs/delete-confirm.JPG)
+![Deleting](https://github.com/nathan-ts/scheduler/blob/main/docs/deleting.JPG)
