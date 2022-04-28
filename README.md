@@ -4,16 +4,24 @@
 
 Install dependencies with `npm install`.
 
-## Running Server
+## Getting Started
 
-```sh
+To start the client: 
+```
+npm start
+```
+
+To start the server to serve interviews, install [scheduler-api](https://github.com/nathan-ts/scheduler-api) and run:
+```
+npm install
 npm start
 ```
 
 ## Dependencies
 
-- [API for interviews](https://github.com/nathan-ts/scheduler-api)
+- [scheduler-api](https://github.com/nathan-ts/scheduler-api)
 - Axios
 - React
 
 ## Screenshots
+
