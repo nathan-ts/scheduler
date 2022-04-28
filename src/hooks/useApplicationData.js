@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export default function useApplicationData(props) {
 
+  // Set up state information
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -19,9 +20,7 @@ export default function useApplicationData(props) {
       axios.get('/api/interviewers')
     ])
       .then(response => {
-        console.log("GET days", response[0].data, 
-          "\nGET appts", response[1].data, 
-          "\nGET interviewers", response[2].data);
+        // Set state and overwrite previous data with fetched information
         setState(prev => ({
           ...prev, 
           days: response[0].data, 
@@ -33,7 +32,7 @@ export default function useApplicationData(props) {
   
   // Function to change state when we book interview
   function bookInterview(id, interview) {
-    console.log("bookInterview called with:", id, interview);
+    // Make updated appointments object
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -43,13 +42,11 @@ export default function useApplicationData(props) {
       [id]: appointment
     };
 
-    // Update number of slots in the day we are booking in
+    // Update number of slots, in days, in the day we are booking in
     const days = updateSpots(state, appointments, id);
-
-    // console.log("bookInterview updating state with appts:", appointments);
+    // Return PUT request and update the state based on the new appointments and days props
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(response => {
-        console.log("PUT:", interview, "Response:", response.status);
         setState(prev => ({
           ...prev,
           appointments, 
@@ -61,7 +58,6 @@ export default function useApplicationData(props) {
   
   // Function to change state to remove interview from appointment slot
   function cancelInterview(id) {
-    console.log("cancelInterview called with:", id);
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -71,10 +67,9 @@ export default function useApplicationData(props) {
       [id]: appointment
     };
 
-    // Update number of slots in the day we are booking in
+    // Update number of slots, in days, in the day we are deleting in
     const days = updateSpots(state, appointments, id);
-
-    console.log("Appointment after cancel to push", appointment);
+    // Return DELETE request and update state for the new appointments and days props
     return axios.delete(`/api/appointments/${id}`, { interview: null })
       .then(response => {
         setState(prev => ({
@@ -85,6 +80,8 @@ export default function useApplicationData(props) {
       });
   };
 
+  // Function to return an updated days array with the spots correctly updated, 
+  //   based on the appointment data in state
   const updateSpots = function(state, appointments, id) {
     // find the day
     const days = JSON.parse(JSON.stringify(state.days)); 
@@ -95,16 +92,13 @@ export default function useApplicationData(props) {
     let spots = 0;
     for (const id of dayObj.appointments) {
       const appointment = appointments[id];
-      console.log("Checking appointments for open spots:", appointment);
       if (!appointment.interview) {
         spots++;
       }
     }
-
     // Update the cloned days array with the new day object with correct spots
     const day = { ...dayObj, spots };
     days[dayIndex] = day;
-    console.log("state.days updated with:", day);
 
     return days;
   };

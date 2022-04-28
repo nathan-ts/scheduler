@@ -40,10 +40,8 @@ describe("Form", () => {
     );
     fireEvent.click(getByText("Save"));
 
-    /* 1. validation is shown */
     expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();
   
-    /* 2. onSave is not called */
     expect(onSave).not.toHaveBeenCalled();
   });
   
@@ -56,10 +54,8 @@ describe("Form", () => {
     );
     fireEvent.click(getByText("Save"));
 
-    /* 3. validation is shown */
     expect(getByText(/please select an interviewer/i)).toBeInTheDocument();
   
-    /* 4. onSave is not called */
     expect(onSave).not.toHaveBeenCalled();
   });
   

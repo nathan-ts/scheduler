@@ -8,11 +8,10 @@ export default function Form(props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || null);  
   const [error, setError] = useState("");
 
-  // console.log("Rendering Form with student as:", props.student, "and interviewer as", props.interviewer);
   const reset = function() {
     setStudent("");
     setInterviewer(null);
-    // setError("");
+    setError("");
   };
 
   const cancel = function() {

@@ -4,20 +4,16 @@
 
 Install dependencies with `npm install`.
 
-## Running Webpack Development Server
+## Running Server
 
 ```sh
 npm start
 ```
 
-## Running Jest Test Framework
+## Dependencies
 
-```sh
-npm test
-```
+- [API for interviews](https://github.com/nathan-ts/scheduler-api)
+- Axios
+- React
 
-## Running Storybook Visual Testbed
-
-```sh
-npm run storybook
-```
+## Screenshots

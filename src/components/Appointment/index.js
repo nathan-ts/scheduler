@@ -47,7 +47,6 @@ export default function Appointment(props) {
     transition(DELETING, true);
     props.cancelInterview(props.id)
       .then(response => {
-        console.log("Deleted appointment successfully!");
         transition(EMPTY);
       })
       .catch(err => {
